@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Stats playerStats;
+
     //Audio
     public AudioSource source;
     public AudioClip attackClip;
@@ -12,24 +14,25 @@ public class Player : MonoBehaviour
     public AudioClip jumpClip;
 
 
+    public Transform rotatorJoint;
     //Camera Values
     public float yaw;
     public float pitch;
     public float mouseSensitivity;
     public Rigidbody body;
 
-
     public Camera playerCamera;
     public Attack attack;
 
     //Player Movement
-    public float speed;
-    public float jumpSpeed;
     public float gravityBoost;
     private Vector3 direction;
 
     private bool isGrounded;
+    private bool isDashing;
 
+    private Coroutine DashCoroutine;
+    private Coroutine AttackCoroutine;
 
     // Start is called before the first frame update
     void Start()
@@ -73,12 +76,64 @@ public class Player : MonoBehaviour
             direction += transform.right;
         }
 
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded && !isDashing)
+        {
+            if (DashCoroutine != null) StopCoroutine(DashCoroutine);
+
+            isDashing = true;
+            DashCoroutine = StartCoroutine(Dashing(direction));
+            //StartCoroutine(Rolling(direction));
+        }
 
 
-
-        transform.position += direction.normalized * speed * Time.deltaTime;
+        if (!isDashing) transform.position += direction.normalized * playerStats.GetSpeed() * Time.deltaTime;
 
     }
+    IEnumerator Rolling(Vector3 direction)
+    {
+        /*
+        float time = 0;
+        while(time < 1)
+        {
+            transform.position = Vector3.Slerp(transform.position, transform.position + direction, time);
+
+            time += Time.deltaTime * speed * 5;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+        */
+
+        // Vector3 rotation = transform.rotation.eulerAngles;
+        //rotation.y += 90;
+        //rotatorJoint.localRotation = Quaternion.Euler(rotation);
+        
+
+        for (int i = 0; i < 360; i++)
+        {
+            rotatorJoint.Rotate(direction.normalized, Space.Self);
+            yield return new WaitForSeconds(0.001f);
+        }
+    }
+
+    IEnumerator Dashing(Vector3 direction)
+    {
+       //Dashing
+       body.AddForce(direction.normalized * 1500);
+       yield return new WaitForSeconds(0.3f);
+
+       //Slow down the character
+       body.velocity *= 0.5f;
+       body.angularVelocity *= 0.5f;
+
+       //Regular movement becomes available
+       isDashing = false;
+
+       //Cooldown 
+       yield return new WaitForSeconds(0.2f);
+
+    }
+
 
     void Jump()
     {
@@ -86,7 +141,7 @@ public class Player : MonoBehaviour
         {
             source.PlayOneShot(jumpClip);
             isGrounded = false;
-            body.velocity += new Vector3(0, jumpSpeed, 0);
+            body.velocity += new Vector3(0, playerStats.GetJumpSpeed(), 0);
         }
     }
 
@@ -94,16 +149,19 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            source.PlayOneShot(attackClip);
-            StopAllCoroutines();
-            StartCoroutine(AttackCoroutine());
+  
+            if (AttackCoroutine != null) StopCoroutine(AttackCoroutine);
+
+            AttackCoroutine = StartCoroutine(Attacking());
+
         }
 
     }
 
-    IEnumerator AttackCoroutine()
+    IEnumerator Attacking()
     {
-        attack.Activate();
+        source.PlayOneShot(attackClip);
+        attack.Activate(playerStats.GetPower());
         yield return new WaitForSeconds(0.2f);
         attack.Deactivate();
     }

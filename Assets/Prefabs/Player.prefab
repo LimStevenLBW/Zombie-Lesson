@@ -351,9 +351,10 @@ GameObject:
   - component: {fileID: 7436268162227300834}
   - component: {fileID: 8156152113433693294}
   - component: {fileID: 7950109116652895348}
+  - component: {fileID: 8062754323446434828}
+  - component: {fileID: 185352023713959121}
   - component: {fileID: 7618008235477036104}
   - component: {fileID: 5771212888527892669}
-  - component: {fileID: 8062754323446434828}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -429,6 +430,48 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8062754323446434828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762304046029395741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46d53d0b0e287c044a1254b9492243ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStats: {fileID: 185352023713959121}
+  source: {fileID: 5787256956137055373}
+  attackClip: {fileID: 8300000, guid: 48b3386bebae8f443af77222d1f69362, type: 3}
+  tookDamageClip: {fileID: 8300000, guid: 3fe90c2dfaf3b114eb3d817a5059b5ba, type: 3}
+  diedClip: {fileID: 0}
+  jumpClip: {fileID: 8300000, guid: 2c8dc41e3dabc1b4382552fe4ea25fd9, type: 3}
+  rotatorJoint: {fileID: 0}
+  yaw: 0
+  pitch: 0
+  mouseSensitivity: 2
+  body: {fileID: 0}
+  playerCamera: {fileID: 5769182715503147412}
+  attack: {fileID: 5115503723637555095}
+  gravityBoost: 15
+--- !u!114 &185352023713959121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762304046029395741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b97bb9199256c241b612bbff22d0aac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  speed: 15
+  jumpSpeed: 25
+  power: 10
 --- !u!136 &7618008235477036104
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -479,32 +522,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &8062754323446434828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4762304046029395741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46d53d0b0e287c044a1254b9492243ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 5787256956137055373}
-  attackClip: {fileID: 8300000, guid: 48b3386bebae8f443af77222d1f69362, type: 3}
-  tookDamageClip: {fileID: 8300000, guid: 3fe90c2dfaf3b114eb3d817a5059b5ba, type: 3}
-  diedClip: {fileID: 0}
-  jumpClip: {fileID: 8300000, guid: 2c8dc41e3dabc1b4382552fe4ea25fd9, type: 3}
-  yaw: 0
-  pitch: 0
-  mouseSensitivity: 2
-  body: {fileID: 0}
-  playerCamera: {fileID: 5769182715503147412}
-  attack: {fileID: 5115503723637555095}
-  speed: 10
-  jumpSpeed: 12
-  gravityBoost: 15
 --- !u!1 &4762746412244673615
 GameObject:
   m_ObjectHideFlags: 0

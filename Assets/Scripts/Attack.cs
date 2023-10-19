@@ -8,6 +8,7 @@ public class Attack : MonoBehaviour
 
     private bool active;
     private MeshRenderer mesh;
+    private float power;
 
     // Start is called before the first frame update
     void Start()
@@ -22,8 +23,9 @@ public class Attack : MonoBehaviour
         
     }
 
-    public void Activate()
+    public void Activate(float power)
     {
+        this.power = power;
         mesh.enabled = true;
         active = true;
     }
@@ -36,11 +38,12 @@ public class Attack : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "Enemy" && active)
+        if (other.gameObject.GetComponent<Attackable>() != null && active)
         {
-            Rigidbody body = other.gameObject.GetComponent<Rigidbody>();
-            Vector3 liftOffset = new Vector3(0, 0.2f, 0);
-            body.AddForce((transform.forward + liftOffset) * forceAmount);
+            Attackable attackable = other.gameObject.GetComponent<Attackable>();
+
+            attackable.Attacked(forceAmount, transform.forward, power);
+   
             Deactivate();
         }
 
