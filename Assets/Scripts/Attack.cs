@@ -26,13 +26,13 @@ public class Attack : MonoBehaviour
     public void Activate(float power)
     {
         this.power = power;
-        mesh.enabled = true;
+       // mesh.enabled = true;
         active = true;
     }
 
     public void Deactivate()
     {
-        mesh.enabled = false;
+      //  mesh.enabled = false;
         active = false;
     }
 

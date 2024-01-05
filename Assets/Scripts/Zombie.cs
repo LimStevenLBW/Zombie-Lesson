@@ -4,21 +4,26 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour, Attackable
 {
-    private bool isActive;
-    private Coroutine isDyingCoroutine;
     public Stats zombieStats;
     public AudioSource source;
     public AudioClip tookDamageClip;
     public AudioClip diedClip;
-
+    public SkinnedMeshRenderer mesh;
+    public Material atlas;
+    public Material hitMaterial;
     public float forceAmount;
+    public Pickup goldPrefab;
 
+    private bool isActive;
+    private Coroutine isDyingCoroutine;
+    private Animator animator;
     private Player target;
     private Vector3 direction;
 
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>(); 
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         isActive = true;
     }
@@ -39,6 +44,8 @@ public class Zombie : MonoBehaviour, Attackable
         direction = target.transform.position - transform.position;
         transform.position += direction.normalized * zombieStats.GetSpeed() * Time.deltaTime;
 
+        if (direction.normalized.x > 0 || direction.normalized.y > 0 || direction.normalized.z > 0) animator.SetBool("IsWalking", true);
+        else { animator.SetBool("IsWalking", false); }
         //Storing the rotation towards the player
         Vector3 rotation = Quaternion.LookRotation(target.transform.position - transform.position).eulerAngles;
 
@@ -50,12 +57,21 @@ public class Zombie : MonoBehaviour, Attackable
     IEnumerator Dedge()
     {
         yield return new WaitForSeconds(1);
+
+        Vector3 pickupSpawnPos = transform.position;
+        pickupSpawnPos.y = 3;
+        Instantiate(goldPrefab, pickupSpawnPos, Quaternion.identity);
         Destroy(gameObject);
     }
 
     void FixedUpdate()
     {
 
+    }
+
+    public bool GetIsActive()
+    {
+        return isActive;
     }
 
     private void OnCollisionStay(Collision other)
@@ -77,10 +93,20 @@ public class Zombie : MonoBehaviour, Attackable
     {
         //Zombie takes damage
         zombieStats.TakeDamage(power);
+        source.PlayOneShot(tookDamageClip);
 
+        StartCoroutine(AttackedCoroutine());
 
         Rigidbody body = GetComponent<Rigidbody>();
         Vector3 liftOffset = new Vector3(0, 0.2f, 0);
         body.AddForce((forceDirection + liftOffset) * playerForceAmount);
+    }
+
+    IEnumerator AttackedCoroutine()
+    {
+        mesh.material = hitMaterial;
+
+        yield return new WaitForSeconds(0.5f);
+        //mesh.materials[1] = null;
     }
 }

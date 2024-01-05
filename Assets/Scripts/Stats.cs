@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
-     private float rhealth;
-     private float rspeed;
-     private float rjumpSpeed;
-     private float rpower;
+    private float rhealth;
+    private float rspeed;
+    private float rjumpSpeed;
+    private float rpower;
+    private int goldCount;
 
     [SerializeField] private float health;
     [SerializeField] private float speed;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float power;
+
+
+    public int GetGold()
+    {
+        return goldCount;
+    }
+
+    public void AddGold()
+    {
+        goldCount += 10;
+    }
+
+    public void SetGold(int goldCount)
+    {
+        this.goldCount = goldCount;
+    }
 
     public float GetHealth()
     {

@@ -4,31 +4,28 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //Player Owned Gameobjects
     public Stats playerStats;
+    public PlayerCanvas playerCanvas;
 
-    //Audio
-    public AudioSource source;
-    public AudioClip attackClip;
-    public AudioClip tookDamageClip;
-    public AudioClip diedClip;
-    public AudioClip jumpClip;
+    public PlayerAudio playerAudio;
+    public ViewModel viewModel;
+    public Attack attack;
+    public Projectile fireballPrefab;
+    public Rigidbody body;
+    public Camera playerCamera;
 
-
-    public Transform rotatorJoint;
     //Camera Values
+    public Transform rotatorJoint;
     public float yaw;
     public float pitch;
     public float mouseSensitivity;
-    public Rigidbody body;
-
-    public Camera playerCamera;
-    public Attack attack;
 
     //Player Movement
     public float gravityBoost;
     private Vector3 direction;
-
     private bool isGrounded;
+    private bool isMoving;
     private bool isDashing;
 
     private Coroutine DashCoroutine;
@@ -38,12 +35,22 @@ public class Player : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody>();
+        playerCanvas = GameObject.FindGameObjectWithTag("PlayerCanvas").GetComponent<PlayerCanvas>();
+        playerCanvas.SetHealthBar(playerStats.GetHealth());
+        playerCanvas.UpdateGoldCounterText(playerStats.GetGold());
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (playerStats.GetHealth() <= 0)
+        {
+            playerCanvas.ShowGameOverScreen();
+
+            return;
+        }
+
         CameraControl();
         Move();
         Jump();
@@ -52,12 +59,15 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        body.AddForce(Vector3.down * gravityBoost); 
+        body.AddForce(Vector3.down * gravityBoost);
     }
 
     void Move()
     {
         direction = new Vector3(0, 0, 0);
+
+        //Resets the isMoving boolean
+        isMoving = false;
 
         if (Input.GetKey("w"))
         {
@@ -76,8 +86,12 @@ public class Player : MonoBehaviour
             direction += transform.right;
         }
 
+        //Checks if we are moving in any direction
+        if (direction.x != 0 || direction.y != 0 || direction.z != 0) isMoving = true;
+
         if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded && !isDashing)
         {
+
             if (DashCoroutine != null) StopCoroutine(DashCoroutine);
 
             isDashing = true;
@@ -107,7 +121,7 @@ public class Player : MonoBehaviour
         // Vector3 rotation = transform.rotation.eulerAngles;
         //rotation.y += 90;
         //rotatorJoint.localRotation = Quaternion.Euler(rotation);
-        
+
 
         for (int i = 0; i < 360; i++)
         {
@@ -118,19 +132,23 @@ public class Player : MonoBehaviour
 
     IEnumerator Dashing(Vector3 direction)
     {
-       //Dashing
-       body.AddForce(direction.normalized * 1500);
-       yield return new WaitForSeconds(0.3f);
+        viewModel.SetRunningIdle();
 
-       //Slow down the character
-       body.velocity *= 0.5f;
-       body.angularVelocity *= 0.5f;
+        //Dashing
+        body.AddForce(direction.normalized * 1500);
+        yield return new WaitForSeconds(0.3f);
 
-       //Regular movement becomes available
-       isDashing = false;
+        //Slow down the character
+        body.velocity *= 0.5f;
+        body.angularVelocity *= 0.5f;
 
-       //Cooldown 
-       yield return new WaitForSeconds(0.2f);
+        //Regular movement becomes available
+        isDashing = false;
+
+
+        viewModel.SetIdle();
+        //Cooldown 
+        yield return new WaitForSeconds(0.2f);
 
     }
 
@@ -139,7 +157,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            source.PlayOneShot(jumpClip);
+            playerAudio.PlayAudio("jump");
             isGrounded = false;
             body.velocity += new Vector3(0, playerStats.GetJumpSpeed(), 0);
         }
@@ -147,22 +165,38 @@ public class Player : MonoBehaviour
 
     void Attack()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0)) //LEFT CLICK
         {
-  
+
             if (AttackCoroutine != null) StopCoroutine(AttackCoroutine);
 
             AttackCoroutine = StartCoroutine(Attacking());
 
+        }
+        else if (Input.GetMouseButtonDown(1)) //RIGHT CLICK
+        {
+
+            Vector3 cameraForward = playerCamera.transform.forward;
+
+            Vector3 spawnPos = transform.position + cameraForward * 2;
+            spawnPos.y += 1f; //Raise the projectile a little bit off the ground
+
+
+            Projectile projectile = Instantiate(fireballPrefab, spawnPos, Quaternion.identity); //SPAWN THE PROJECTILE
+
+            playerAudio.PlayAudio("fireball"); //Play the sound effect
+            Rigidbody pBody = projectile.GetComponent<Rigidbody>(); //Get the rigidbody
+            pBody.AddForce(cameraForward * projectile.GetForce()); //Apply the force
         }
 
     }
 
     IEnumerator Attacking()
     {
-        source.PlayOneShot(attackClip);
+        viewModel.PlayAttackAnim();
+        playerAudio.PlayAudio("attack");
         attack.Activate(playerStats.GetPower());
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         attack.Deactivate();
     }
 
@@ -183,13 +217,52 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            source.PlayOneShot(tookDamageClip);
+            Zombie zombie = collision.gameObject.GetComponent<Zombie>();
+
+            if (zombie.GetIsActive())
+            {
+                playerStats.TakeDamage(zombie.zombieStats.GetPower());
+                playerAudio.PlayAudio("tookDamage");
+                playerCanvas.SetHealthBar(playerStats.GetHealth());
+            }
         }
 
-        if(collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground")
         {
             isGrounded = true;
         }
 
+    }
+
+    public bool GetGroundedState()
+    {
+        return isGrounded;
+    }
+
+    public bool GetIsMovingState()
+    {
+        return isMoving;
+    }
+
+    public void ResetHealth()
+    {
+        playerStats.ResetHealth();
+        playerCanvas.SetHealthBar(playerStats.GetHealth());
+    }
+
+    public void AddGold()
+    {
+        playerStats.AddGold();
+        playerCanvas.UpdateGoldCounterText(playerStats.GetGold());
+    }
+
+    public void ShowShop()
+    {
+        playerCanvas.ShowShop();
+    }
+
+    public void HideShop()
+    {
+        playerCanvas.HideShop();
     }
 }
