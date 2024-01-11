@@ -337,6 +337,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2491258097923623466, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 289689106}
     - target: {fileID: 7284475505333619423, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
       propertyPath: m_Name
       value: Item 3
@@ -918,6 +922,17 @@ Transform:
   m_Father: {fileID: 1069591513}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &289689106 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2361349823067563813, guid: 0f56c5c732168c2439393d10f6d75cd0, type: 3}
+  m_PrefabInstance: {fileID: 2791733130328929408}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46d53d0b0e287c044a1254b9492243ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &325247222
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2460,6 +2475,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2491258097923623466, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 289689106}
     - target: {fileID: 7284475505333619423, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
       propertyPath: m_Name
       value: Item 2
@@ -3317,6 +3336,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2491258097923623466, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 289689106}
+    - target: {fileID: 2491258097923623466, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: bc26b376782b8ff4b92a479b51c73f96, type: 2}
     - target: {fileID: 7284475505333619423, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
       propertyPath: m_Name
       value: Item 1

@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     //Player Owned Gameobjects
     public Stats playerStats;
     public PlayerCanvas playerCanvas;
+    public WeaponController weaponController;
 
     public PlayerAudio playerAudio;
     public ViewModel viewModel;

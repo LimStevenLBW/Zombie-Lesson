@@ -75,8 +75,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2486507644606335591}
   - component: {fileID: 8454019356103575318}
+  - component: {fileID: 5412468307382577262}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: WeaponController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,6 +120,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5412468307382577262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437939505978200911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286f3c2b03fe2934eadca246c2fa3552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 11400000, guid: 4b35d73ac1d1f3e4eacc04c78a3f92b6, type: 2}
+  heldWeaponModel: {fileID: 7010543787955903172}
 --- !u!1 &506517913099250095
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,6 +1488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStats: {fileID: 7016251921033925784}
   playerCanvas: {fileID: 0}
+  weaponController: {fileID: 5412468307382577262}
   playerAudio: {fileID: 5367490945167055493}
   viewModel: {fileID: 6443504006341782566}
   attack: {fileID: 7371665889354686531}
@@ -1884,11 +1900,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword_Wood
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a0458f37db90bce48b8cffd7f4664536, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0458f37db90bce48b8cffd7f4664536, type: 3}
+--- !u!1 &7010543787955903172 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a0458f37db90bce48b8cffd7f4664536, type: 3}
+  m_PrefabInstance: {fileID: 7893435479807485845}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7638567596561694846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a0458f37db90bce48b8cffd7f4664536, type: 3}

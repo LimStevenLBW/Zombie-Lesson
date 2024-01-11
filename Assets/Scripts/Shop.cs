@@ -22,6 +22,7 @@ public class Shop : MonoBehaviour
         {
             Player player = other.gameObject.GetComponent<Player>();
             player.ShowShop();
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
@@ -31,6 +32,7 @@ public class Shop : MonoBehaviour
         {
             Player player = other.gameObject.GetComponent<Player>();
             player.HideShop();
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }
