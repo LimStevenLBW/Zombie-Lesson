@@ -8,7 +8,7 @@ public class Stats : MonoBehaviour
     private float rspeed;
     private float rjumpSpeed;
     private float rpower;
-    private int goldCount;
+    public int goldCount;
 
     [SerializeField] private float health;
     [SerializeField] private float speed;

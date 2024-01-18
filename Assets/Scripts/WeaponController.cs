@@ -9,8 +9,11 @@ public class WeaponController : MonoBehaviour
 
     public void Equip(Weapon weapon)
     {
+        this.weapon = weapon;
         Destroy(heldWeaponModel);
         heldWeaponModel = Instantiate(weapon.model, transform.position, Quaternion.identity);
+        heldWeaponModel.transform.SetParent(transform);
+        heldWeaponModel.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
 }

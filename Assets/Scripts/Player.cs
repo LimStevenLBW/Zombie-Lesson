@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
     {
         viewModel.PlayAttackAnim();
         playerAudio.PlayAudio("attack");
-        attack.Activate(playerStats.GetPower());
+        attack.Activate(playerStats.GetPower() + weaponController.weapon.attackPower);
         yield return new WaitForSeconds(0.3f);
         attack.Deactivate();
     }
@@ -254,6 +254,16 @@ public class Player : MonoBehaviour
     public void AddGold()
     {
         playerStats.AddGold();
+        playerCanvas.UpdateGoldCounterText(playerStats.GetGold());
+    }
+    public int GetGold()
+    {
+        return playerStats.GetGold();
+    }
+
+    public void SetGold(int gold)
+    {
+        playerStats.SetGold(gold);
         playerCanvas.UpdateGoldCounterText(playerStats.GetGold());
     }
 

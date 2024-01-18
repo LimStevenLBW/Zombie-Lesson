@@ -341,6 +341,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 289689106}
+    - target: {fileID: 2491258097923623466, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: bc26b376782b8ff4b92a479b51c73f96, type: 2}
     - target: {fileID: 7284475505333619423, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
       propertyPath: m_Name
       value: Item 3
@@ -2479,6 +2483,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 289689106}
+    - target: {fileID: 2491258097923623466, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b35d73ac1d1f3e4eacc04c78a3f92b6, type: 2}
     - target: {fileID: 7284475505333619423, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
       propertyPath: m_Name
       value: Item 2
@@ -2967,6 +2975,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f19d96d2425298f449a3cfc59397a17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1540056531
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1540056534}
+  - component: {fileID: 1540056533}
+  - component: {fileID: 1540056532}
+  m_Layer: 0
+  m_Name: NetworkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1540056532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540056531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6960e84d07fb87f47956e7a81d71c4e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ProtocolType: 0
+  m_MaxPacketQueueSize: 128
+  m_MaxPayloadSize: 6144
+  m_HeartbeatTimeoutMS: 500
+  m_ConnectTimeoutMS: 1000
+  m_MaxConnectAttempts: 60
+  m_DisconnectTimeoutMS: 30000
+  ConnectionData:
+    Address: 127.0.0.1
+    Port: 7777
+    ServerListenAddress: 127.0.0.1
+  DebugSimulator:
+    PacketDelayMS: 0
+    PacketJitterMS: 0
+    PacketDropRate: 0
+--- !u!114 &1540056533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540056531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 593a2fe42fa9d37498c96f9a383b6521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RunInBackground: 1
+  LogLevel: 1
+  NetworkConfig:
+    ProtocolVersion: 0
+    NetworkTransport: {fileID: 1540056532}
+    PlayerPrefab: {fileID: 0}
+    Prefabs:
+      NetworkPrefabsLists:
+      - {fileID: 11400000, guid: 1d65ae7b4bfa9bb4486455981703bdeb, type: 2}
+    TickRate: 30
+    ClientConnectionBufferTimeout: 10
+    ConnectionApproval: 0
+    ConnectionData: 
+    EnableTimeResync: 0
+    TimeResyncInterval: 30
+    EnsureNetworkVariableLengthSafety: 0
+    EnableSceneManagement: 1
+    ForceSamePrefabs: 1
+    RecycleNetworkIds: 1
+    NetworkIdRecycleDelay: 120
+    RpcHashSize: 0
+    LoadSceneTimeOut: 120
+    SpawnTimeout: 1
+    EnableNetworkLogs: 1
+    OldPrefabList: []
+--- !u!4 &1540056534
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540056531}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.6438622, y: 6.4306216, z: 1.3124361}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1609493230
 GameObject:
   m_ObjectHideFlags: 0
@@ -3343,7 +3448,7 @@ PrefabInstance:
     - target: {fileID: 2491258097923623466, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
       propertyPath: weapon
       value: 
-      objectReference: {fileID: 11400000, guid: bc26b376782b8ff4b92a479b51c73f96, type: 2}
+      objectReference: {fileID: 11400000, guid: bcf1ab5e76d4be54185a32d18b3f994c, type: 2}
     - target: {fileID: 7284475505333619423, guid: ec105d33c4bb7e74caf557836ea186e6, type: 3}
       propertyPath: m_Name
       value: Item 1
@@ -3365,6 +3470,10 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4327900992448852744, guid: 0f56c5c732168c2439393d10f6d75cd0, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2614044881
+      objectReference: {fileID: 0}
     - target: {fileID: 5556861534080670567, guid: 0f56c5c732168c2439393d10f6d75cd0, type: 3}
       propertyPath: near clip plane
       value: 0.1
@@ -3372,6 +3481,10 @@ PrefabInstance:
     - target: {fileID: 5950765932331120242, guid: 0f56c5c732168c2439393d10f6d75cd0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7016251921033925784, guid: 0f56c5c732168c2439393d10f6d75cd0, type: 3}
+      propertyPath: goldCount
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 7491846201704228637, guid: 0f56c5c732168c2439393d10f6d75cd0, type: 3}
       propertyPath: m_Enabled

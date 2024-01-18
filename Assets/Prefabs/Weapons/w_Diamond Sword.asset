@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b86b2f2e19797cc43b48f71357128909, type: 3}
-  m_Name: Wooden Sword
+  m_Name: w_Diamond Sword
   m_EditorClassIdentifier: 
-  weaponName: Wooden Sword
-  attackPower: 100
-  cost: 50
-  image: {fileID: 0}
-  model: {fileID: 919132149155446097, guid: a0458f37db90bce48b8cffd7f4664536, type: 3}
+  weaponName: Diamond Sword
+  attackPower: 200
+  cost: 500
+  sprite: {fileID: 21300000, guid: cba51500646dd8f44bb1218df2a9c310, type: 3}
+  model: {fileID: 919132149155446097, guid: 4355c4d5a33859c40a1ec26c05cd04e4, type: 3}

@@ -10,6 +10,6 @@ public class Weapon : ScriptableObject
     public int attackPower;
     public int cost;
 
-    public Image image;
+    public Sprite sprite;
     public GameObject model;
 }
