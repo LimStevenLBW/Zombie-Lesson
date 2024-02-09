@@ -1,96 +1,132 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Stats : MonoBehaviour
+public class Stats : NetworkBehaviour
 {
-    private float rhealth;
-    private float rspeed;
-    private float rjumpSpeed;
-    private float rpower;
-    public int goldCount;
+    public Player player;
+    private float originalHealth;
+    private float originalSpeed;
+    private float originalJumpSpeed;
+    private float originalPower;
 
-    [SerializeField] private float health;
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpSpeed;
-    [SerializeField] private float power;
+    [SerializeField] private NetworkVariable<float> health = new NetworkVariable<float>(100);
+    [SerializeField] private NetworkVariable<float> speed = new NetworkVariable<float>(5);
+    [SerializeField] private NetworkVariable<float> jumpSpeed = new NetworkVariable<float>(12);
+    [SerializeField] private NetworkVariable<float> power = new NetworkVariable<float>(5);
+    [SerializeField] private NetworkVariable<int> goldCount = new NetworkVariable<int>(100);
+
+    public override void OnNetworkSpawn()
+    {
+        if (IsOwner)
+        {
+            health.OnValueChanged += OnHealthValueChanged;
+            speed.OnValueChanged += OnSpeedValueChanged;
+            jumpSpeed.OnValueChanged += OnJumpSpeedValueChanged;
+            power.OnValueChanged += OnPowerValueChanged;
+        }
+
+        base.OnNetworkSpawn();
+    }
+
+    private void OnHealthValueChanged(float previous, float newValue)
+    {
+        if(health.Value <= 0)
+        {
+            //player.Gameover()
+        }
+    }
+
+    private void OnSpeedValueChanged(float previous, float newValue)
+    {
+
+    }
+    private void OnJumpSpeedValueChanged(float previous, float newValue)
+    {
+
+    }
+    private void OnPowerValueChanged(float previous, float newValue)
+    {
+
+    }
 
 
     public int GetGold()
     {
-        return goldCount;
+        return goldCount.Value;
     }
 
-    public void AddGold()
+    public void AddGold(int gold)
     {
-        goldCount += 10;
+        goldCount.Value += gold;
     }
 
     public void SetGold(int goldCount)
     {
-        this.goldCount = goldCount;
+        this.goldCount.Value = goldCount;
     }
 
     public float GetHealth()
     {
-        return health;
+        return health.Value;
     }
 
     public void TakeDamage(float damage)
     {
-        health -= damage;
+        health.Value -= damage;
     }
 
     public float GetSpeed()
     {
-        return speed;
+        return speed.Value;
     }
 
     public void SetSpeed(float speed)
     {
-        this.speed = speed;
+        this.speed.Value = speed;
     }
 
     public float GetJumpSpeed()
     {
-        return jumpSpeed;
+        return jumpSpeed.Value;
     }
 
     public void SetJumpSpeed(float jumpSpeed)
     {
-        this.jumpSpeed = jumpSpeed;
+        this.jumpSpeed.Value = jumpSpeed;
     }
 
     public void ResetHealth()
     {
-        health = rhealth;
+        health.Value = originalHealth;
     }
     public void ResetSpeed()
     {
-        speed = rspeed;
+        speed.Value = originalSpeed;
     }
     public void ResetJumpSpeed()
     {
-        jumpSpeed = rjumpSpeed;
+        jumpSpeed.Value = originalJumpSpeed;
     }
     public float GetPower()
     {
-        return power;
+        return power.Value;
     }
 
     public void SetPower(float power)
     {
-        this.power = power;
+        this.power.Value = power;
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        rhealth = health;
-        rspeed = speed;
-        rjumpSpeed = jumpSpeed;
-        rpower = power;
+        originalHealth = health.Value;
+        originalSpeed = speed.Value;
+        originalJumpSpeed = jumpSpeed.Value;
+        originalPower = power.Value;
     }
 
     // Update is called once per frame

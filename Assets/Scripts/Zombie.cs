@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class Zombie : MonoBehaviour, Attackable
+public class Zombie : NetworkBehaviour, Attackable
 {
     public Stats zombieStats;
     public AudioSource source;
@@ -31,6 +32,7 @@ public class Zombie : MonoBehaviour, Attackable
     // Update is called once per frame
     void Update()
     {
+        if (!IsServer) return;
         if (isActive == false) return;
 
         if(zombieStats.GetHealth() <= 0)

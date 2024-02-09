@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {
     //Player Owned Gameobjects
     public Stats playerStats;
@@ -32,9 +33,25 @@ public class Player : MonoBehaviour
     private Coroutine DashCoroutine;
     private Coroutine AttackCoroutine;
 
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsOwner)
+        {
+            playerCamera.enabled = false;
+            gameObject.layer = LayerMask.NameToLayer("Default");
+            foreach (Transform child in transform)
+            {
+                child.gameObject.layer = LayerMask.NameToLayer("Default");
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        
+
         body = GetComponent<Rigidbody>();
         playerCanvas = GameObject.FindGameObjectWithTag("PlayerCanvas").GetComponent<PlayerCanvas>();
         playerCanvas.SetHealthBar(playerStats.GetHealth());
@@ -45,6 +62,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!IsOwner) return;
+
+
         if (playerStats.GetHealth() <= 0)
         {
             playerCanvas.ShowGameOverScreen();
@@ -52,10 +72,19 @@ public class Player : MonoBehaviour
             return;
         }
 
+        UnFocusMouseDebug();
         CameraControl();
         Move();
         Jump();
         Attack();
+    }
+
+    void UnFocusMouseDebug()
+    {
+        if (IsOwner && Input.GetKeyDown("-")){
+            Cursor.lockState = CursorLockMode.None;
+        }
+
     }
 
     void FixedUpdate()
@@ -251,9 +280,9 @@ public class Player : MonoBehaviour
         playerCanvas.SetHealthBar(playerStats.GetHealth());
     }
 
-    public void AddGold()
+    public void AddGold(int gold)
     {
-        playerStats.AddGold();
+        playerStats.AddGold(gold);
         playerCanvas.UpdateGoldCounterText(playerStats.GetGold());
     }
     public int GetGold()
@@ -265,15 +294,5 @@ public class Player : MonoBehaviour
     {
         playerStats.SetGold(gold);
         playerCanvas.UpdateGoldCounterText(playerStats.GetGold());
-    }
-
-    public void ShowShop()
-    {
-        playerCanvas.ShowShop();
-    }
-
-    public void HideShop()
-    {
-        playerCanvas.HideShop();
     }
 }

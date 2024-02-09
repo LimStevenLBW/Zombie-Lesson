@@ -49,7 +49,7 @@ public class Pickup : MonoBehaviour
             }
             else if(type == pickupType.gold)
             {
-                player.AddGold();
+                player.AddGold(10);
                 Destroy(gameObject);
             }
         }

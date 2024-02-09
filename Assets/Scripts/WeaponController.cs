@@ -13,7 +13,8 @@ public class WeaponController : MonoBehaviour
         Destroy(heldWeaponModel);
         heldWeaponModel = Instantiate(weapon.model, transform.position, Quaternion.identity);
         heldWeaponModel.transform.SetParent(transform);
-        heldWeaponModel.transform.rotation = Quaternion.Euler(0, 0, 0);
+        heldWeaponModel.transform.localRotation = Quaternion.Euler(0, 0, 0);
+        heldWeaponModel.transform.localPosition = new Vector3(0, 0, 0);
     }
 
 }

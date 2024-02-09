@@ -10,7 +10,12 @@ public class ShopItem : MonoBehaviour
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI costText;
     public Weapon weapon;
-    public Player player;
+    private Player player;
+
+    public void SetPlayer(Player player)
+    {
+        this.player = player;
+    }
 
     public void Buy()
     {
